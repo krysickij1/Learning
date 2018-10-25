@@ -1,3 +1,4 @@
+#copy of an oryginal file
 #!/usr/bin/python
 # Copyright 2010 Google Inc.
 # Licensed under the Apache License, Version 2.0
@@ -33,8 +34,13 @@ Suggested milestones for incremental development:
  -Build the [year, 'name rank', ... ] list and print it
  -Fix main() to use the extract_names list
 """
-
+def extract_year(filename):
+  f = open(filename, 'r')
+  year = re.search(r'(Popularity) in (\d\d\d\d)', f.read())
+  return year
+  
 def extract_names(filename):
+  year = extract_year(filename)
   f = open(filename, 'r')
   # year = re.search(r'(Popularity) in (\d\d\d\d)', f.read())
   year2 = re.findall(r'<td>(\d+)</td><td>(\w+)</td><td>(\w+)</td>', f.read())
@@ -43,6 +49,8 @@ def extract_names(filename):
   # if year:
     # print year.group(2)
   if year2:
+    print year.group(2)
+    print year
     for tuple in year2:
       # print tuple[0], tuple[1], tuple[2]
       dict1 = {}
@@ -50,12 +58,9 @@ def extract_names(filename):
       dict3 = {}
       dict1[tuple[1]] = tuple[0]
       dict2[tuple[2]] = tuple[0]
-      for key in sorted(dict1, key = len): 
-        print key, dict1[key]
-  Rank
-  if Rank:
-    print 'test'
-    print Rank.group()
+      #for key in sorted(dict1, key = len): 
+        #print key, dict1[key]   
+  
   """
   Given a file name for baby.html, returns a list starting with the year string
   followed by the name-rank strings in alphabetical order.
